@@ -1,4 +1,4 @@
-function [M2s] = camera2(E)
+function [M2s] = E2Rts(E)
 [U,S,V] = svd(E);
 m = (S(1,1)+S(2,2))/2;
 E = U*[m,0,0;0,m,0;0,0,0]*V';
