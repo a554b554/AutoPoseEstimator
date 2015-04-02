@@ -1,7 +1,9 @@
-function [R, T, F, E, P] = PosEstByF(corres_left, corres_right, K_left, K_right, img_sz)
+function [R, T, E, P] = PosEstByEb(corres_left, corres_right, K_left, K_right, img_sz)
     M = max(img_sz);
-    F = eightpointF(corres_left, corres_right, M)
-    E = essentialMatrix(F, K_left, K_right);
+    N = size(corres_left,1);
+    corres_left_norm = K_left \ [corres_left'; ones(1,N)];
+    corres_right_norm = K_right \ [corres_right'; ones(1,N)];
+    E = eightpointE(corres_left_norm', corres_right_norm');
     M_rights = E2Rts(E);
     M_left = [K_left,zeros(3,1)];
     for i=1:4

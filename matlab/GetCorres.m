@@ -24,14 +24,14 @@ corres_right = [];
 
 for k=1:numel(inliers_cell)
     %clf;
-    imshow([uint8(img_left), uint8(img_right)]);
-    hold on
+    %imshow([uint8(img_left), uint8(img_right)]);
+    %hold on
     inliers = inliers_cell{k};
     for i=1:size(inliers,2)
-            plot([kp_left(1,matches(1,inliers(i))), kp_right(1,matches(2,inliers(i))) + w], [kp_left(2,matches(1,inliers(i))), kp_right(2,matches(2,inliers(i)))], 'g');
+            %plot([kp_left(1,matches(1,inliers(i))), kp_right(1,matches(2,inliers(i))) + w], [kp_left(2,matches(1,inliers(i))), kp_right(2,matches(2,inliers(i)))], 'g');
             corres_left = [corres_left; kp_left(:,matches(1,inliers(i)))'];
             corres_right = [corres_right; kp_right(:,matches(2,inliers(i)))'];
     end
-    hold off
+    %hold off
 end
 end
