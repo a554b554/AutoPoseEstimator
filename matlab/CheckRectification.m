@@ -1,8 +1,11 @@
-function CheckRectification(result_img)
+function CheckRectification(result_img, fig_idx)
+    if nargin == 1
+        fig_idx = 1;
+    end
     if ischar(result_img)
         result_img = imread(result_img);
     end
-    figure(1);
+    figure(fig_idx);
     imshow(result_img);
     hold on
     [h, w] = size(result_img);

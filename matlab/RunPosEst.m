@@ -55,23 +55,55 @@ right_imgpath = [img_basepath, '/', view_id, '/right', img_ids{1}, '.jpg'];
 img_left = double(rgb2gray(imread(left_imgpath)));
 img_right = double(rgb2gray(imread(right_imgpath)));
 
+result_img = [ uint8(img_left), uint8(img_right)];
 %[R_, T_, F_, E_, P_] = PosEstByF(corres_left, corres_right, K_left, K_right, size(img_left));
-[R, T, E, P] = PosEstByEb(corres_left, corres_right, K_left, K_right, size(img_left));
-%displayEpipolarF(img_left, img_right, F);
-%match_plot(img_left,img_right,corres_left,corres_right);
-% figure(2)
-% plot3(P_(:,1), P_(:,2), P_(:,3),'.');
-% figure(3)
-% plot3(P(:,1), P(:,2), P(:,3),'.');
+%[R, T, E, P] = PosEstByEb(corres_left, corres_right, K_left, K_right);
+[Rs, Ts] = PosEstByEbRansac(corres_left, corres_right, K_left, K_right, 500, 0.05, true);
 
-
-% compute the rotations that need to be applied on the left and right
-% images so that they will be rectified
-[R_left, R_right, S_new] = RectifyStereo([R, T]);
-
-img_left_rec = RectifyImage(img_left, R_left, K_left, d_left);
-img_right_rec = RectifyImage(img_right, R_right, K_right, d_right);
-
+% select best {R,T} from {Rs, Ts}, in the sense that has best rectification results
+[corres_left, corres_right] = GetCorres(img_left, img_right);
+corres_base_count = size(corres_left, 1);
+epi_err_list = zeros(numel(Rs),1);
+corres_count_list = zeros(numel(Rs),1);
+final_score_list = zeros(numel(epi_err_list), 1);
+rect_result_imgs = {};
+for i = 1:numel(Rs)
+    R = Rs{i};
+    T = Ts{i};
+    [R_left, R_right, S_new] = RectifyStereo([R, T]);
+    img_left_rec = RectifyImage(img_left, R_left, K_left, d_left);
+    img_right_rec = RectifyImage(img_right, R_right, K_right, d_right);
+    [corres_left, corres_right, aver_epi_err] = FindEpiCorres(img_left_rec, img_right_rec, 50);
+    epi_err_list(i) = aver_epi_err;
+    corres_count_list(i) = size(corres_left, 1);
+    final_score_list(i) = 1 / aver_epi_err + size(corres_left, 1) / corres_base_count;
+    rect_result_imgs{i} = [uint8(img_left_rec), uint8(img_right_rec)];
+    
+    %result_img = [result_img; uint8(img_left_rec), uint8(img_right_rec)];
+end
+% 
+% [epi_errs, epi_rnk] = sort(epi_err_list, 'ascend');
+% [corres_counts, corres_rnk] = sort(corres_count_list, 'descend');
+% 
+% for i = 1:numel(epi_rnk)
+%     rank_score = 1 / i;
+%     final_score_list(epi_rnk(i)) = final_score_list(epi_rnk(i)) + rank_score;
+%     final_score_list(corres_rnk(i)) = final_score_list(corres_rnk(i)) + rank_score;
+% end
+[final_scores, final_rnk] = sort(final_score_list, 'descend');
+plot_cols = 5;
+plot_rows = ceil(numel(final_rnk) / plot_cols);
+figure(1);
+for i = 1:numel(final_rnk)
+    subplot(plot_rows, plot_cols, i);
+    hold on
+    title(['epi_err=', num2str(epi_err_list(final_rnk(i))), ' corres_count=', num2str(corres_count_list(final_rnk(i)))]);
+    imshow(rect_result_imgs{final_rnk(i)});
+    hold off
+end
+best_Rt_idx = final_rnk(1);
+fprintf('The best epipolar error is: %f \n the best correspondeces count is: %d\n', epi_err_list(best_Rt_idx), corres_count_list(best_Rt_idx));
+result_img = [result_img; rect_result_imgs{best_Rt_idx}];
 % ground truth rectified images
 [R_left_gt, R_right_gt, S_new] = RectifyStereo([R_gt, T_gt]);
 
@@ -118,12 +150,11 @@ img_right_rec_gt = RectifyImage(img_right, R_right_gt, K_right, d_right);
 % img_right_rec_new = RectifyImage(img_right, R_right_new, K_right, d_right);
 
 
-result_img = [ uint8(img_left), uint8(img_right);
-               uint8(img_left_rec), uint8(img_right_rec);
+result_img = [ result_img;
                uint8(img_left_rec_gt), uint8(img_right_rec_gt)];
-           
+
 if nargin == 0           
-    CheckRectification(result_img);
+    CheckRectification(result_img, 2);
 end
 
 end

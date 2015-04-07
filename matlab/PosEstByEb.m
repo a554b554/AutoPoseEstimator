@@ -1,4 +1,4 @@
-function [R, T, E, P] = PosEstByEb(corres_left, corres_right, K_left, K_right, img_sz)
+function [R, T, E, P] = PosEstByEb(corres_left, corres_right, K_left, K_right)
     M = max(img_sz);
     N = size(corres_left,1);
     corres_left_norm = K_left \ [corres_left'; ones(1,N)];

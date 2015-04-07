@@ -21,24 +21,28 @@ matches = matchsift(desc_left, desc_right, 0.7);
 
 corres_left = [];
 corres_right = [];
-[h,w] = size(img_left);
+aver_epi_err = inf;
+if numel(inliers_cell) == 0
+    return
+end
 
+[h,w] = size(img_left);
 for k=1:numel(inliers_cell)
-    clf;
+    %clf;
     
-    imshow([uint8(img_left), uint8(img_right)]);
-    hold on
+    %imshow([uint8(img_left), uint8(img_right)]);
+    %hold on
     inliers = inliers_cell{k};
     for i=1:size(inliers,2)
         if abs(kp_left(2,matches(1,inliers(i))) - kp_right(2,matches(2,inliers(i)))) < bandwidth
-            plot([kp_left(1,matches(1,inliers(i))), kp_right(1,matches(2,inliers(i))) + w], [kp_left(2,matches(1,inliers(i))), kp_right(2,matches(2,inliers(i)))], 'g');
+            %plot([kp_left(1,matches(1,inliers(i))), kp_right(1,matches(2,inliers(i))) + w], [kp_left(2,matches(1,inliers(i))), kp_right(2,matches(2,inliers(i)))], 'g');
             corres_left = [corres_left; kp_left(:,matches(1,inliers(i)))'];
             corres_right = [corres_right; kp_right(:,matches(2,inliers(i)))'];
         %else
             %plot([kp_left(1,matches(1,inliers(i))), kp_right(1,matches(2,inliers(i))) + w], [kp_left(2,matches(1,inliers(i))), kp_right(2,matches(2,inliers(i)))], 'r');
         end
     end
-    hold off
+    %hold off
 end
 
 aver_epi_err =  mean(abs(corres_left(:,2) - corres_right(:,2)));
