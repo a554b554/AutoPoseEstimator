@@ -42,7 +42,7 @@ function [Rs, Ts] = PosEstByEbRansac(corres_left, corres_right, K_left, K_right,
         Ts_cand{valid_idx} = M_rights(:,4,i);
         valid_idx = valid_idx + 1;
     end
-    topK = min(floor(0.5 * numel(Rs_cand)), 20);
+    topK = min(floor(0.2 * numel(Rs_cand)), 20);
     [Rs, Ts] = GetBestRT(Rs_cand, Ts_cand, ransac_radius, topK);
 end
 
