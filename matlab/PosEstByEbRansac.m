@@ -1,16 +1,18 @@
-function [Rs, Ts] = PosEstByEbRansac(corres_left, corres_right, K_left, K_right, ransac_num, ransac_radius, force_neg_Tx)
+function [Rs, Ts] = PosEstByEbRansac(corres_left, corres_right, K_left, K_right, ransac_num, ransac_radius, force_neg_Tx, force_max_Tx)
     % NOTE: if force_neg_Tx be true, then all the T with negative X
     % dimension (Tx) be rejected. The rational behind this is, since we know
     % the second camera must locate to the right of first camera,
     % (i.e. the first camera's center must be on the negative side of second
     % camera's X-axis), then Tx must be negative! HOWEVER, this might not
     % be always true, if first camera is facing the opposite direction!
+    % NOTE: force_max_Tx be true, it forces the absolute value of x dimension in T must be
+    % the largest compared to y and z in T.  
     
     N = size(corres_left,1);
     if N < 8
         error('Error: no enough correspondences!');
     end
-    smp_N = max(floor(0.2 * N), 8);
+    smp_N = 8;%max(floor(0.2 * N), 8);
     
     corres_left_norm = K_left \ [corres_left'; ones(1,N)];
     corres_right_norm = K_right \ [corres_right'; ones(1,N)];
@@ -38,11 +40,17 @@ function [Rs, Ts] = PosEstByEbRansac(corres_left, corres_right, K_left, K_right,
         if force_neg_Tx && M_rights(1,4,i) > 0
             continue;
         end
+        if force_max_Tx
+            [ig, max_idx] = max(abs(M_rights(:,4,i)));
+            if max_idx ~= 1
+                continue;
+            end
+        end
         Rs_cand{valid_idx} = M_rights(:,1:3,i);
         Ts_cand{valid_idx} = M_rights(:,4,i);
         valid_idx = valid_idx + 1;
     end
-    topK = min(floor(0.2 * numel(Rs_cand)), 20);
+    topK = min(floor(0.2 * numel(Rs_cand)), 50);
     [Rs, Ts] = GetBestRT(Rs_cand, Ts_cand, ransac_radius, topK);
 end
 

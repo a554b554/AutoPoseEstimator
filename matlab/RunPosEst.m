@@ -7,10 +7,10 @@ addpath(genpath('../3rdparty/vlfeat'));
 run('vl_setup');
 
 if nargin == 0
-    img_basepath = '/data/autorecalib/test/feb15';
-    calib_data_basepath = '/data/autorecalib/gt/feb15/Mat';
-    view_id = '3';
-    img_ids = {'1'};
+    img_basepath = '/data/AutoPoseEst/apr16/img/checkboard';
+    calib_data_basepath = '/data/AutoPoseEst/apr16/mat';
+    view_id = '12mm';
+    img_ids = {'1','20','40','60'};
 end
 
 left_calib_matpath = [calib_data_basepath, '/', view_id, '/Calib_Results_left.mat'];
@@ -58,7 +58,7 @@ img_right = double(rgb2gray(imread(right_imgpath)));
 result_img = [ uint8(img_left), uint8(img_right)];
 %[R_, T_, F_, E_, P_] = PosEstByF(corres_left, corres_right, K_left, K_right, size(img_left));
 %[R, T, E, P] = PosEstByEb(corres_left, corres_right, K_left, K_right);
-[Rs, Ts] = PosEstByEbRansac(corres_left, corres_right, K_left, K_right, 500, 0.05, true);
+[Rs, Ts] = PosEstByEbRansac(corres_left, corres_right, K_left, K_right, 1000, 0.1, true, true);
 
 
 
@@ -76,10 +76,10 @@ for i = 1:numel(Rs)
     [R_left, R_right, S_new] = RectifyStereo([R, T]);
     img_left_rec = RectifyImage(img_left, R_left, K_left, d_left);
     img_right_rec = RectifyImage(img_right, R_right, K_right, d_right);
-    [corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres(img_left_rec, img_right_rec, 50);
+    [corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres(img_left_rec, img_right_rec, 500);
     epi_err_list(i) = aver_epi_err;
     corres_count_list(i) = size(corres_left_rec, 1);
-    final_score_list(i) = 1 / aver_epi_err + size(corres_left_rec, 1) / corres_base_count;
+    final_score_list(i) = 1 / aver_epi_err + 0.6 * size(corres_left_rec, 1) / corres_base_count;
     rect_result_imgs{i} = [uint8(img_left_rec), uint8(img_right_rec)];
     
     %result_img = [result_img; uint8(img_left_rec), uint8(img_right_rec)];
@@ -109,7 +109,7 @@ fprintf('The best epipolar error is: %f \n the best correspondeces count is: %d\
 result_img = [result_img; rect_result_imgs{best_Rt_idx}];
 
 % optimize again by minimizing the reprojection error
-[R_opt, T_opt] = OptimizePos(corres_left, corres_right, K_left, K_right, Rs{best_Rt_idx}, Ts{best_Rt_idx}, 0.00001, 10000);
+[R_opt, T_opt] = OptimizePos(corres_left, corres_right, K_left, K_right, Rs{best_Rt_idx}, Ts{best_Rt_idx}, 1, 10);
 [R_left_opt, R_right_opt, S_new] = RectifyStereo([R_opt, T_opt]);
 img_left_rec_opt = RectifyImage(img_left, R_left_opt, K_left, d_left);
 img_right_rec_opt = RectifyImage(img_right, R_right_opt, K_right, d_right);

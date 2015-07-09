@@ -12,37 +12,41 @@ function [corres_left, corres_right, aver_epi_err] = FindEpiCorres(img_left, img
 [fr,desc_right] = vl_sift(single(img_right));
 kp_left = fl(1:2, :);
 kp_right = fr(1:2, :);
+corres_left = [];
+corres_right = [];
+aver_epi_err = inf;
 
+if(size(kp_left, 2) == 0 || size(kp_right, 2) == 0)
+    return;
+end
 % match features
 matches = matchsift(desc_left, desc_right, 0.7);
 
 % run ransac to get correspondences
 [H,inliers_cell] = sequentialRANSAC(kp_left, kp_right, matches);
 
-corres_left = [];
-corres_right = [];
-aver_epi_err = inf;
+
 if numel(inliers_cell) == 0
     return
 end
 
 [h,w] = size(img_left);
 for k=1:numel(inliers_cell)
-    %clf;
+    clf;
     
-    %imshow([uint8(img_left), uint8(img_right)]);
-    %hold on
+    imshow([uint8(img_left), uint8(img_right)]);
+    hold on
     inliers = inliers_cell{k};
     for i=1:size(inliers,2)
         if abs(kp_left(2,matches(1,inliers(i))) - kp_right(2,matches(2,inliers(i)))) < bandwidth
-            %plot([kp_left(1,matches(1,inliers(i))), kp_right(1,matches(2,inliers(i))) + w], [kp_left(2,matches(1,inliers(i))), kp_right(2,matches(2,inliers(i)))], 'g');
+            plot([kp_left(1,matches(1,inliers(i))), kp_right(1,matches(2,inliers(i))) + w], [kp_left(2,matches(1,inliers(i))), kp_right(2,matches(2,inliers(i)))], 'g');
             corres_left = [corres_left; kp_left(:,matches(1,inliers(i)))'];
             corres_right = [corres_right; kp_right(:,matches(2,inliers(i)))'];
-        %else
-            %plot([kp_left(1,matches(1,inliers(i))), kp_right(1,matches(2,inliers(i))) + w], [kp_left(2,matches(1,inliers(i))), kp_right(2,matches(2,inliers(i)))], 'r');
+        else
+            plot([kp_left(1,matches(1,inliers(i))), kp_right(1,matches(2,inliers(i))) + w], [kp_left(2,matches(1,inliers(i))), kp_right(2,matches(2,inliers(i)))], 'r');
         end
     end
-    %hold off
+    hold off
 end
 
 aver_epi_err =  mean(abs(corres_left(:,2) - corres_right(:,2)));
