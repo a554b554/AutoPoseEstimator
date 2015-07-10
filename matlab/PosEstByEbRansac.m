@@ -28,7 +28,7 @@ function [Rs, Ts] = PosEstByEbRansac(corres_left, corres_right, K_left, K_right,
         smp_pt_left = corres_left_norm(:,smp_idx);
         smp_pt_right = corres_right_norm(:,smp_idx);
         % Estimate the model
-        E = eightpointE(smp_pt_left', smp_pt_right');
+        E = eightpointE(smp_pt_left', smp_pt_right')
         M_rights = E2Rts(E);
         for i=1:4
             M_right=K_right*M_rights(:,:,i);
@@ -51,7 +51,9 @@ function [Rs, Ts] = PosEstByEbRansac(corres_left, corres_right, K_left, K_right,
         valid_idx = valid_idx + 1;
     end
     topK = min(floor(0.2 * numel(Rs_cand)), 50);
-    [Rs, Ts] = GetBestRT(Rs_cand, Ts_cand, ransac_radius, topK);
+   % [Rs, Ts] = GetBestRT(Rs_cand, Ts_cand, ransac_radius, topK);
+   Rs = Rs_cand;
+   Ts = Ts_cand;
 end
 
 function [Rs, Ts] = GetBestRT(Rs_cand, Ts_cand, radius, topK)

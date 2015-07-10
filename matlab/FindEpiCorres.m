@@ -48,6 +48,8 @@ for k=1:numel(inliers_cell)
     end
     %hold off
 end
-
-aver_epi_err =  mean(abs(corres_left(:,2) - corres_right(:,2)));
+if size(corres_left)==0
+    aver_epi_err = inf;
+else
+    aver_epi_err =  mean(abs(corres_left(:,2) - corres_right(:,2)));
 end
