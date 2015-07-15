@@ -1,0 +1,1034 @@
+
+R_gt =
+
+    0.9991    0.0032   -0.0421
+   -0.0034    1.0000   -0.0048
+    0.0421    0.0050    0.9991
+
+
+T_gt =
+
+ -401.7907
+    3.0081
+  -10.1421
+
+
+TT =
+
+         0   10.1421    3.0081
+  -10.1421         0  401.7907
+   -3.0081 -401.7907         0
+
+
+E_gt =
+
+    0.0941   27.0453    4.2951
+  -10.1273    1.9081  401.7734
+   -3.0559 -401.0032    2.1253
+
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00001_00000_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   Inf
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+    2.2667
+
+method: MSAC
+
+aver_epi_err =
+
+   11.8477
+
+method: LTS
+
+aver_epi_err =
+
+   Inf
+
+method: cai
+ans =
+
+    1.1543
+
+
+aver_epi_err_gt =
+
+    0.9169
+
+Elapsed time is 3.985221 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00001_00100_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   Inf
+
+method: 8points
+
+aver_epi_err =
+
+    5.3604
+
+method: LMedS
+
+aver_epi_err =
+
+   Inf
+
+method: MSAC
+
+aver_epi_err =
+
+   Inf
+
+method: LTS
+
+aver_epi_err =
+
+   Inf
+
+method: cai
+ans =
+
+    3.1220
+
+
+aver_epi_err_gt =
+
+    1.0102
+
+Elapsed time is 4.431231 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00001_00200_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   Inf
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+   13.6248
+
+method: MSAC
+
+aver_epi_err =
+
+   10.2962
+
+method: LTS
+
+aver_epi_err =
+
+    5.7867
+
+method: cai
+ans =
+
+    2.3849
+
+
+aver_epi_err_gt =
+
+    0.8719
+
+Elapsed time is 3.893962 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00001_00300_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   Inf
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+   30.0134
+
+method: MSAC
+
+aver_epi_err =
+
+    1.7635
+
+method: LTS
+
+aver_epi_err =
+
+   Inf
+
+method: cai
+ans =
+
+   12.1822
+
+
+aver_epi_err_gt =
+
+    0.9382
+
+Elapsed time is 3.827222 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00001_00400_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   Inf
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+   18.0133
+
+method: MSAC
+
+aver_epi_err =
+
+   Inf
+
+method: LTS
+
+aver_epi_err =
+
+   Inf
+
+method: cai
+ans =
+
+    2.5650
+
+
+aver_epi_err_gt =
+
+    1.0076
+
+Elapsed time is 4.411658 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00001_00500_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   Inf
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+   Inf
+
+method: MSAC
+
+aver_epi_err =
+
+   21.5364
+
+method: LTS
+
+aver_epi_err =
+
+   Inf
+
+method: cai
+ans =
+
+    9.5244
+
+
+aver_epi_err_gt =
+
+    0.9216
+
+Elapsed time is 4.032750 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00001_00600_left.png
+
+method: ransac
+
+aver_epi_err =
+
+    2.8997
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+   Inf
+
+method: MSAC
+
+aver_epi_err =
+
+   Inf
+
+method: LTS
+
+aver_epi_err =
+
+   Inf
+
+method: cai
+ans =
+
+    2.4763
+
+
+aver_epi_err_gt =
+
+    0.8763
+
+Elapsed time is 4.362650 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00001_00700_left.png
+
+method: ransac
+
+aver_epi_err =
+
+    1.9082
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+   17.2696
+
+method: MSAC
+
+aver_epi_err =
+
+   Inf
+
+method: LTS
+
+aver_epi_err =
+
+    2.4244
+
+method: cai
+ans =
+
+    3.0346
+
+
+aver_epi_err_gt =
+
+    0.8768
+
+Elapsed time is 3.874444 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00001_00800_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   10.3207
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+   Inf
+
+method: MSAC
+
+aver_epi_err =
+
+   Inf
+
+method: LTS
+
+aver_epi_err =
+
+   Inf
+
+method: cai
+ans =
+
+    3.7301
+
+
+aver_epi_err_gt =
+
+    0.8881
+
+Elapsed time is 4.304471 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00001_00900_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   Inf
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+    6.8425
+
+method: MSAC
+
+aver_epi_err =
+
+   30.8787
+
+method: LTS
+
+aver_epi_err =
+
+   Inf
+
+method: cai
+ans =
+
+    3.4909
+
+
+aver_epi_err_gt =
+
+    0.8359
+
+Elapsed time is 4.453726 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00002_00000_left.png
+
+method: ransac
+
+aver_epi_err =
+
+    6.7588
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+    5.1427
+
+method: MSAC
+
+aver_epi_err =
+
+   Inf
+
+method: LTS
+
+aver_epi_err =
+
+    3.1793
+
+method: cai
+ans =
+
+    4.6596
+
+
+aver_epi_err_gt =
+
+    0.8768
+
+Elapsed time is 4.543393 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00002_00100_left.png
+
+method: ransac
+
+aver_epi_err =
+
+    9.2235
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+   21.4839
+
+method: MSAC
+
+aver_epi_err =
+
+   13.4316
+
+method: LTS
+
+aver_epi_err =
+
+   11.8528
+
+method: cai
+ans =
+
+    1.7461
+
+
+aver_epi_err_gt =
+
+    0.9245
+
+Elapsed time is 4.013601 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00002_00200_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   16.7901
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+   11.7905
+
+method: MSAC
+
+aver_epi_err =
+
+   24.4588
+
+method: LTS
+
+aver_epi_err =
+
+   12.0155
+
+method: cai
+ans =
+
+    1.5212
+
+
+aver_epi_err_gt =
+
+    0.8459
+
+Elapsed time is 4.119834 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00002_00300_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   10.2617
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+   Inf
+
+method: MSAC
+
+aver_epi_err =
+
+   Inf
+
+method: LTS
+
+aver_epi_err =
+
+   Inf
+
+method: cai
+ans =
+
+    5.8169
+
+
+aver_epi_err_gt =
+
+    0.9016
+
+Elapsed time is 4.881761 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00002_00400_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   Inf
+
+method: 8points
+
+aver_epi_err =
+
+   21.5898
+
+method: LMedS
+
+aver_epi_err =
+
+   13.8496
+
+method: MSAC
+
+aver_epi_err =
+
+   20.5090
+
+method: LTS
+
+aver_epi_err =
+
+    5.3628
+
+{Attempted to access centroid1(2); index out of bounds because numel(centroid1)=1.
+
+Error in <a href="matlab:helpUtils.errorDocCallback('computeH_norm', '/home/xc/Documents/AutoPosEst/matlab/computeH_norm.m', 45)" style="font-weight:bold">computeH_norm</a> (<a href="matlab: opentoline('/home/xc/Documents/AutoPosEst/matlab/computeH_norm.m',45,0)">line 45</a>)
+x1(2,:) = x1(2,:) - centroid1(2);
+
+Error in <a href="matlab:helpUtils.errorDocCallback('ransacH2to1', '/home/xc/Documents/AutoPosEst/matlab/ransacH2to1.m', 41)" style="font-weight:bold">ransacH2to1</a> (<a href="matlab: opentoline('/home/xc/Documents/AutoPosEst/matlab/ransacH2to1.m',41,0)">line 41</a>)
+        bestH = computeH_norm(corr_pt1(:,cons_idx),corr_pt2(:,cons_idx));
+
+Error in <a href="matlab:helpUtils.errorDocCallback('sequentialRANSAC', '/home/xc/Documents/AutoPosEst/matlab/sequentialRANSAC.m', 14)" style="font-weight:bold">sequentialRANSAC</a> (<a href="matlab: opentoline('/home/xc/Documents/AutoPosEst/matlab/sequentialRANSAC.m',14,0)">line 14</a>)
+    [H, inls] = ransacH2to1(keypoints1, keypoints2, left_matches, 3000, 10);
+
+Error in <a href="matlab:helpUtils.errorDocCallback('FindEpiCorres', '/home/xc/Documents/AutoPosEst/matlab/FindEpiCorres.m', 26)" style="font-weight:bold">FindEpiCorres</a> (<a href="matlab: opentoline('/home/xc/Documents/AutoPosEst/matlab/FindEpiCorres.m',26,0)">line 26</a>)
+[H,inliers_cell] = sequentialRANSAC(kp_left, kp_right, matches);
+
+Error in <a href="matlab:helpUtils.errorDocCallback('RunPosEst', '/home/xc/Documents/AutoPosEst/matlab/RunPosEst.m', 270)" style="font-weight:bold">RunPosEst</a> (<a href="matlab: opentoline('/home/xc/Documents/AutoPosEst/matlab/RunPosEst.m',270,0)">line 270</a>)
+    [corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres(img_left_rec,
+    img_right_rec, 50);
+} 
+RunPosEst
+
+R_gt =
+
+    0.9991    0.0032   -0.0421
+   -0.0034    1.0000   -0.0048
+    0.0421    0.0050    0.9991
+
+
+T_gt =
+
+ -401.7907
+    3.0081
+  -10.1421
+
+
+TT =
+
+         0   10.1421    3.0081
+  -10.1421         0  401.7907
+   -3.0081 -401.7907         0
+
+
+E_gt =
+
+    0.0941   27.0453    4.2951
+  -10.1273    1.9081  401.7734
+   -3.0559 -401.0032    2.1253
+
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00002_00400_left.png
+
+method: ransac
+
+aver_epi_err =
+
+    2.2386
+
+method: 8points
+
+aver_epi_err =
+
+    2.0482
+
+method: LMedS
+
+aver_epi_err =
+
+    3.3488
+
+method: MSAC
+
+aver_epi_err =
+
+    2.7345
+
+method: LTS
+
+aver_epi_err =
+
+   Inf
+
+method: cai
+ans =
+
+    2.5460
+
+
+aver_epi_err_gt =
+
+    0.9249
+
+Elapsed time is 5.055245 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00002_00500_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   Inf
+
+method: 8points
+
+aver_epi_err =
+
+   16.4422
+
+method: LMedS
+
+aver_epi_err =
+
+   Inf
+
+method: MSAC
+
+aver_epi_err =
+
+   Inf
+
+method: LTS
+
+aver_epi_err =
+
+   13.7630
+
+
+R_gt =
+
+    0.9991    0.0032   -0.0421
+   -0.0034    1.0000   -0.0048
+    0.0421    0.0050    0.9991
+
+
+T_gt =
+
+ -401.7907
+    3.0081
+  -10.1421
+
+
+TT =
+
+         0   10.1421    3.0081
+  -10.1421         0  401.7907
+   -3.0081 -401.7907         0
+
+
+E_gt =
+
+    0.0941   27.0453    4.2951
+  -10.1273    1.9081  401.7734
+   -3.0559 -401.0032    2.1253
+
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00011_00400_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   48.8539
+
+method: 8points
+
+aver_epi_err =
+
+   38.1617
+
+method: LMedS
+
+aver_epi_err =
+
+    5.9470
+
+method: MSAC
+
+aver_epi_err =
+
+    1.8942
+
+method: LTS
+
+aver_epi_err =
+
+   Inf
+
+{Operation terminated by user during <a href="matlab:helpUtils.errorDocCallback('ransacH2to1', '/home/xc/Documents/AutoPosEst/matlab/ransacH2to1.m', 37)" style="font-weight:bold">ransacH2to1</a> (<a href="matlab: opentoline('/home/xc/Documents/AutoPosEst/matlab/ransacH2to1.m',37,0)">line 37</a>)
+
+
+In <a href="matlab:helpUtils.errorDocCallback('sequentialRANSAC', '/home/xc/Documents/AutoPosEst/matlab/sequentialRANSAC.m', 14)" style="font-weight:bold">sequentialRANSAC</a> (<a href="matlab: opentoline('/home/xc/Documents/AutoPosEst/matlab/sequentialRANSAC.m',14,0)">line 14</a>)
+    [H, inls] = ransacH2to1(keypoints1, keypoints2, left_matches, 3000, 10);
+
+In <a href="matlab:helpUtils.errorDocCallback('FindEpiCorres', '/home/xc/Documents/AutoPosEst/matlab/FindEpiCorres.m', 26)" style="font-weight:bold">FindEpiCorres</a> (<a href="matlab: opentoline('/home/xc/Documents/AutoPosEst/matlab/FindEpiCorres.m',26,0)">line 26</a>)
+[H,inliers_cell] = sequentialRANSAC(kp_left, kp_right, matches);
+
+In <a href="matlab:helpUtils.errorDocCallback('RunPosEst', '/home/xc/Documents/AutoPosEst/matlab/RunPosEst.m', 270)" style="font-weight:bold">RunPosEst</a> (<a href="matlab: opentoline('/home/xc/Documents/AutoPosEst/matlab/RunPosEst.m',270,0)">line 270</a>)
+    [corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres(img_left_rec,
+    img_right_rec, 50);
+} 
+RunPosEst
+
+R_gt =
+
+    0.9991    0.0032   -0.0421
+   -0.0034    1.0000   -0.0048
+    0.0421    0.0050    0.9991
+
+
+T_gt =
+
+ -401.7907
+    3.0081
+  -10.1421
+
+
+TT =
+
+         0   10.1421    3.0081
+  -10.1421         0  401.7907
+   -3.0081 -401.7907         0
+
+
+E_gt =
+
+    0.0941   27.0453    4.2951
+  -10.1273    1.9081  401.7734
+   -3.0559 -401.0032    2.1253
+
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00011_00100_left.png
+
+method: ransac
+
+aver_epi_err =
+
+    8.2944
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+   21.5121
+
+method: MSAC
+
+aver_epi_err =
+
+   22.1301
+
+method: LTS
+
+aver_epi_err =
+
+   28.1379
+
+method: cai
+ans =
+
+    2.3850
+
+
+aver_epi_err_gt =
+
+   20.8700
+
+Elapsed time is 8.268583 seconds.
+
+left_imgpath =
+
+~/Documents/data/jun18/test/all_00011_00500_left.png
+
+method: ransac
+
+aver_epi_err =
+
+   35.0021
+
+method: 8points
+
+aver_epi_err =
+
+   Inf
+
+method: LMedS
+
+aver_epi_err =
+
+   17.7646
+
+method: MSAC
+
+aver_epi_err =
+
+   Inf
+
+method: LTS
+
+aver_epi_err =
+
+   24.7278
+
+{Attempted to access sort_dist(:,2); index out of bounds because size(sort_dist)=[29,1].
+
+Error in <a href="matlab:helpUtils.errorDocCallback('matchsift', '/home/xc/Documents/AutoPosEst/matlab/matchsift.m', 5)" style="font-weight:bold">matchsift</a> (<a href="matlab: opentoline('/home/xc/Documents/AutoPosEst/matlab/matchsift.m',5,0)">line 5</a>)
+min2_dist = sort_dist(:,2);
+
+Error in <a href="matlab:helpUtils.errorDocCallback('FindEpiCorres', '/home/xc/Documents/AutoPosEst/matlab/FindEpiCorres.m', 23)" style="font-weight:bold">FindEpiCorres</a> (<a href="matlab: opentoline('/home/xc/Documents/AutoPosEst/matlab/FindEpiCorres.m',23,0)">line 23</a>)
+matches = matchsift(desc_left, desc_right, 0.7);
+
+Error in <a href="matlab:helpUtils.errorDocCallback('RunPosEst', '/home/xc/Documents/AutoPosEst/matlab/RunPosEst.m', 270)" style="font-weight:bold">RunPosEst</a> (<a href="matlab: opentoline('/home/xc/Documents/AutoPosEst/matlab/RunPosEst.m',270,0)">line 270</a>)
+    [corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres(img_left_rec,
+    img_right_rec, 50);
+} 
+RunPosEst
