@@ -43,8 +43,7 @@ load(gt_calib_matpath);
 R_gt = R
 T_gt = T
 TT = [ 0 -T(3) T(2);T(3) 0 -T(1);-T(2) T(1) 0]
-E_gt = R_gt*TT
-
+E_gt = R_gt*TT;
 
        
 
