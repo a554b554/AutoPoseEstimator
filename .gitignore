@@ -4,7 +4,8 @@ Build
 debug
 release
 build
-data
+demo/data/results
+local_data
 bin
 docs/html
 .settings/
@@ -17,3 +18,4 @@ install.sh
 *.swp
 *.swo
 *.jpg
+*.bmp

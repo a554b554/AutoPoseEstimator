@@ -7,28 +7,28 @@
 
 
 %-- Focal length:
-fc = [ 3163.892966675743537 ; 3166.456626732878249 ];
+fc = [ 2145.497523256125987 ; 2142.665019475442932 ];
 
 %-- Principal point:
-cc = [ 667.146358588905628 ; 261.069807746414938 ];
+cc = [ 639.500000000000000 ; 359.500000000000000 ];
 
 %-- Skew coefficient:
 alpha_c = 0.000000000000000;
 
 %-- Distortion coefficients:
-kc = [ -0.720904331234116 ; 1.294728394813519 ; 0.013677122953863 ; -0.008919175114621 ; 0.000000000000000 ];
+kc = [ -0.544584611473421 ; 0.656494509296493 ; -0.003105771667227 ; -0.003529345190431 ; 0.000000000000000 ];
 
 %-- Focal length uncertainty:
-fc_error = [ 147.733246603735950 ; 150.269295665991564 ];
+fc_error = [ 14.081224379110935 ; 14.137773481574644 ];
 
 %-- Principal point uncertainty:
-cc_error = [ 208.809988474966616 ; 155.911929668721029 ];
+cc_error = [ 0.000000000000000 ; 0.000000000000000 ];
 
 %-- Skew coefficient uncertainty:
 alpha_c_error = 0.000000000000000;
 
 %-- Distortion coefficients uncertainty:
-kc_error = [ 0.165486280887695 ; 1.974015123805049 ; 0.017646073208841 ; 0.023425458847848 ; 0.000000000000000 ];
+kc_error = [ 0.022858443868924 ; 0.307022899526637 ; 0.001156384883548 ; 0.000944586258624 ; 0.000000000000000 ];
 
 %-- Image size:
 nx = 1280;
@@ -38,10 +38,10 @@ ny = 720;
 %-- Various other variables (may be ignored if you do not use the Matlab Calibration Toolbox):
 %-- Those variables are used to control which intrinsic parameters should be optimized
 
-n_ima = 81;						% Number of calibration images
+n_ima = 61;						% Number of calibration images
 est_fc = [ 1 ; 1 ];					% Estimation indicator of the two focal variables
 est_aspect_ratio = 1;				% Estimation indicator of the aspect ratio fc(2)/fc(1)
-center_optim = 1;					% Estimation indicator of the principal point
+center_optim = 0;					% Estimation indicator of the principal point
 est_alpha = 0;						% Estimation indicator of the skew coefficient
 est_dist = [ 1 ; 1 ; 1 ; 1 ; 0 ];	% Estimation indicator of the distortion coefficients
 
@@ -50,16 +50,16 @@ est_dist = [ 1 ; 1 ; 1 ; 1 ; 0 ];	% Estimation indicator of the distortion coeff
 %-- The rotation (omc_kk) and the translation (Tc_kk) vectors for every calibration image and their uncertainties
 
 %-- Image #1:
-omc_1 = [ 2.810119e+00 ; 1.058485e+00 ; 2.754943e-01 ];
-Tc_1  = [ -3.149431e+03 ; 1.598985e+03 ; 2.087103e+04 ];
-omc_error_1 = [ 6.581492e-02 ; 2.429479e-02 ; 1.115879e-01 ];
-Tc_error_1  = [ 1.379738e+03 ; 1.032326e+03 ; 1.052236e+03 ];
+omc_1 = [ -2.131741e+00 ; -2.223359e+00 ; -1.470587e-01 ];
+Tc_1  = [ -3.728945e+01 ; -1.893028e+02 ; 6.177191e+03 ];
+omc_error_1 = [ 4.369641e-03 ; 4.945279e-03 ; 8.120409e-03 ];
+Tc_error_1  = [ 2.331999e-01 ; 2.779418e-01 ; 4.103033e+01 ];
 
 %-- Image #2:
-omc_2 = [ NaN ; NaN ; NaN ];
-Tc_2  = [ NaN ; NaN ; NaN ];
-omc_error_2 = [ NaN ; NaN ; NaN ];
-Tc_error_2  = [ NaN ; NaN ; NaN ];
+omc_2 = [ 2.163579e+00 ; 2.261211e+00 ; 2.648281e-01 ];
+Tc_2  = [ -8.740176e+02 ; -1.059356e+02 ; 6.090909e+03 ];
+omc_error_2 = [ 3.988595e-03 ; 4.327757e-03 ; 8.064124e-03 ];
+Tc_error_2  = [ 5.912909e-01 ; 2.554838e-01 ; 4.069378e+01 ];
 
 %-- Image #3:
 omc_3 = [ NaN ; NaN ; NaN ];
@@ -80,10 +80,10 @@ omc_error_5 = [ NaN ; NaN ; NaN ];
 Tc_error_5  = [ NaN ; NaN ; NaN ];
 
 %-- Image #6:
-omc_6 = [ 2.150445e+00 ; 2.203159e+00 ; 1.718215e-01 ];
-Tc_6  = [ -3.335780e+03 ; 7.904894e+02 ; 2.077045e+04 ];
-omc_error_6 = [ 4.897502e-02 ; 4.899995e-02 ; 1.001882e-01 ];
-Tc_error_6  = [ 1.368698e+03 ; 1.027491e+03 ; 1.051202e+03 ];
+omc_6 = [ -2.187085e+00 ; -2.154211e+00 ; -1.694605e-02 ];
+Tc_6  = [ -2.692097e+02 ; -1.907376e+02 ; 6.275038e+03 ];
+omc_error_6 = [ 5.942343e-03 ; 6.263880e-03 ; 1.396684e-02 ];
+Tc_error_6  = [ 1.848881e-01 ; 2.321718e-01 ; 4.144066e+01 ];
 
 %-- Image #7:
 omc_7 = [ NaN ; NaN ; NaN ];
@@ -110,10 +110,10 @@ omc_error_10 = [ NaN ; NaN ; NaN ];
 Tc_error_10  = [ NaN ; NaN ; NaN ];
 
 %-- Image #11:
-omc_11 = [ -1.995631e+00 ; -1.863622e+00 ; 7.241481e-01 ];
-Tc_11  = [ -2.206172e+03 ; 2.443019e+02 ; 1.626527e+04 ];
-omc_error_11 = [ 6.189257e-02 ; 3.838542e-02 ; 7.444406e-02 ];
-Tc_error_11  = [ 1.074906e+03 ; 8.035471e+02 ; 7.888516e+02 ];
+omc_11 = [ -2.176103e+00 ; -2.196797e+00 ; -1.468685e-01 ];
+Tc_11  = [ -1.333502e+03 ; -2.006744e+02 ; 6.280745e+03 ];
+omc_error_11 = [ 4.860106e-03 ; 4.300359e-03 ; 1.069585e-02 ];
+Tc_error_11  = [ 6.077503e-01 ; 3.059172e-01 ; 4.220580e+01 ];
 
 %-- Image #12:
 omc_12 = [ NaN ; NaN ; NaN ];
@@ -140,10 +140,10 @@ omc_error_15 = [ NaN ; NaN ; NaN ];
 Tc_error_15  = [ NaN ; NaN ; NaN ];
 
 %-- Image #16:
-omc_16 = [ 2.190522e+00 ; 1.908248e+00 ; -3.854695e-01 ];
-Tc_16  = [ 1.483321e+02 ; 3.773255e+02 ; 1.847924e+04 ];
-omc_error_16 = [ 3.916205e-02 ; 4.626611e-02 ; 9.818147e-02 ];
-Tc_error_16  = [ 1.219022e+03 ; 9.101831e+02 ; 8.516745e+02 ];
+omc_16 = [ -2.166139e+00 ; -2.158917e+00 ; -1.051978e-01 ];
+Tc_16  = [ -1.572389e+03 ; -1.978077e+02 ; 6.412817e+03 ];
+omc_error_16 = [ 4.154964e-03 ; 3.701748e-03 ; 9.878861e-03 ];
+Tc_error_16  = [ 8.407592e-01 ; 4.118289e-01 ; 4.345101e+01 ];
 
 %-- Image #17:
 omc_17 = [ NaN ; NaN ; NaN ];
@@ -170,10 +170,10 @@ omc_error_20 = [ NaN ; NaN ; NaN ];
 Tc_error_20  = [ NaN ; NaN ; NaN ];
 
 %-- Image #21:
-omc_21 = [ 2.514821e+00 ; 1.668514e+00 ; 3.777821e-01 ];
-Tc_21  = [ -2.385161e+03 ; 2.782865e+02 ; 1.665336e+04 ];
-omc_error_21 = [ 5.659344e-02 ; 3.147759e-02 ; 7.235726e-02 ];
-Tc_error_21  = [ 1.102768e+03 ; 8.231078e+02 ; 8.248689e+02 ];
+omc_21 = [ -2.180141e+00 ; -2.144871e+00 ; -1.677304e-01 ];
+Tc_21  = [ -2.637186e+02 ; -1.728512e+02 ; 6.384028e+03 ];
+omc_error_21 = [ 4.141477e-03 ; 4.318352e-03 ; 7.903086e-03 ];
+Tc_error_21  = [ 2.378903e-01 ; 2.876636e-01 ; 4.234716e+01 ];
 
 %-- Image #22:
 omc_22 = [ NaN ; NaN ; NaN ];
@@ -200,10 +200,10 @@ omc_error_25 = [ NaN ; NaN ; NaN ];
 Tc_error_25  = [ NaN ; NaN ; NaN ];
 
 %-- Image #26:
-omc_26 = [ 2.393936e+00 ; 1.455824e+00 ; 5.965120e-02 ];
-Tc_26  = [ -1.573187e+03 ; 4.943029e+02 ; 2.033122e+04 ];
-omc_error_26 = [ 5.433048e-02 ; 3.922698e-02 ; 9.098676e-02 ];
-Tc_error_26  = [ 1.338394e+03 ; 1.001020e+03 ; 9.792847e+02 ];
+omc_26 = [ -1.950560e+00 ; -1.951009e+00 ; -5.800837e-01 ];
+Tc_26  = [ -7.428842e+02 ; -1.138589e+02 ; 6.260801e+03 ];
+omc_error_26 = [ 1.348832e-03 ; 1.417621e-03 ; 2.231828e-03 ];
+Tc_error_26  = [ 2.907710e-01 ; 2.754108e-01 ; 4.213290e+01 ];
 
 %-- Image #27:
 omc_27 = [ NaN ; NaN ; NaN ];
@@ -230,10 +230,10 @@ omc_error_30 = [ NaN ; NaN ; NaN ];
 Tc_error_30  = [ NaN ; NaN ; NaN ];
 
 %-- Image #31:
-omc_31 = [ 2.514702e+00 ; 1.313332e+00 ; -3.115286e-01 ];
-Tc_31  = [ -1.817104e+03 ; -4.243905e+02 ; 1.665136e+04 ];
-omc_error_31 = [ 4.678687e-02 ; 4.175641e-02 ; 1.003203e-01 ];
-Tc_error_31  = [ 1.101404e+03 ; 8.218418e+02 ; 8.007532e+02 ];
+omc_31 = [ -1.762820e+00 ; -2.000027e+00 ; -1.018573e+00 ];
+Tc_31  = [ -1.113717e+03 ; -2.101654e+02 ; 5.653081e+03 ];
+omc_error_31 = [ 1.141601e-03 ; 1.165102e-03 ; 1.895862e-03 ];
+Tc_error_31  = [ 6.866334e-01 ; 3.881529e-01 ; 3.946486e+01 ];
 
 %-- Image #32:
 omc_32 = [ NaN ; NaN ; NaN ];
@@ -260,10 +260,10 @@ omc_error_35 = [ NaN ; NaN ; NaN ];
 Tc_error_35  = [ NaN ; NaN ; NaN ];
 
 %-- Image #36:
-omc_36 = [ 2.221845e+00 ; 1.452259e+00 ; -5.422890e-01 ];
-Tc_36  = [ -1.649880e+03 ; 3.122979e+01 ; 2.102159e+04 ];
-omc_error_36 = [ 3.887637e-02 ; 4.848963e-02 ; 8.614289e-02 ];
-Tc_error_36  = [ 1.387840e+03 ; 1.035427e+03 ; 9.944780e+02 ];
+omc_36 = [ 2.250734e+00 ; 2.168026e+00 ; 2.714797e-01 ];
+Tc_36  = [ -4.008630e+02 ; -3.167105e+02 ; 4.168741e+03 ];
+omc_error_36 = [ 2.795481e-03 ; 2.772900e-03 ; 4.410010e-03 ];
+Tc_error_36  = [ 2.676792e-01 ; 2.200390e-01 ; 2.782291e+01 ];
 
 %-- Image #37:
 omc_37 = [ NaN ; NaN ; NaN ];
@@ -290,10 +290,10 @@ omc_error_40 = [ NaN ; NaN ; NaN ];
 Tc_error_40  = [ NaN ; NaN ; NaN ];
 
 %-- Image #41:
-omc_41 = [ -2.392979e+00 ; -1.834606e+00 ; -6.459348e-01 ];
-Tc_41  = [ -1.387459e+03 ; 2.982072e+02 ; 1.559645e+04 ];
-omc_error_41 = [ 3.538847e-02 ; 4.882996e-02 ; 8.218907e-02 ];
-Tc_error_41  = [ 1.030061e+03 ; 7.684707e+02 ; 7.529582e+02 ];
+omc_41 = [ 2.037618e+00 ; 1.958227e+00 ; -6.178341e-01 ];
+Tc_41  = [ -4.573403e+02 ; -5.652320e+01 ; 4.431143e+03 ];
+omc_error_41 = [ 1.237013e-03 ; 1.203465e-03 ; 1.645843e-03 ];
+Tc_error_41  = [ 1.715420e-01 ; 1.873634e-01 ; 2.809257e+01 ];
 
 %-- Image #42:
 omc_42 = [ NaN ; NaN ; NaN ];
@@ -320,10 +320,10 @@ omc_error_45 = [ NaN ; NaN ; NaN ];
 Tc_error_45  = [ NaN ; NaN ; NaN ];
 
 %-- Image #46:
-omc_46 = [ 1.881884e+00 ; 2.410401e+00 ; 2.546085e-01 ];
-Tc_46  = [ -2.941603e+03 ; 7.087294e+02 ; 1.540190e+04 ];
-omc_error_46 = [ 4.642692e-02 ; 4.885848e-02 ; 8.433231e-02 ];
-Tc_error_46  = [ 1.016273e+03 ; 7.636780e+02 ; 8.013172e+02 ];
+omc_46 = [ 2.051172e+00 ; 1.886403e+00 ; -9.751792e-01 ];
+Tc_46  = [ -6.433852e+02 ; -1.321490e+02 ; 4.630539e+03 ];
+omc_error_46 = [ 8.485226e-04 ; 7.868748e-04 ; 1.232087e-03 ];
+Tc_error_46  = [ 3.188582e-01 ; 2.212052e-01 ; 2.884578e+01 ];
 
 %-- Image #47:
 omc_47 = [ NaN ; NaN ; NaN ];
@@ -350,10 +350,10 @@ omc_error_50 = [ NaN ; NaN ; NaN ];
 Tc_error_50  = [ NaN ; NaN ; NaN ];
 
 %-- Image #51:
-omc_51 = [ 2.120375e+00 ; 2.235723e+00 ; 2.503319e-01 ];
-Tc_51  = [ -1.577840e+03 ; 1.134259e+02 ; 2.074568e+04 ];
-omc_error_51 = [ 5.252589e-02 ; 4.853928e-02 ; 7.072205e-02 ];
-Tc_error_51  = [ 1.370711e+03 ; 1.021843e+03 ; 9.895176e+02 ];
+omc_51 = [ -2.116252e+00 ; -2.020607e+00 ; -8.476841e-02 ];
+Tc_51  = [ -1.180163e+02 ; -1.581867e+02 ; 6.212010e+03 ];
+omc_error_51 = [ 2.605057e-03 ; 2.914227e-03 ; 6.235676e-03 ];
+Tc_error_51  = [ 2.274996e-01 ; 2.517701e-01 ; 4.110657e+01 ];
 
 %-- Image #52:
 omc_52 = [ NaN ; NaN ; NaN ];
@@ -380,10 +380,10 @@ omc_error_55 = [ NaN ; NaN ; NaN ];
 Tc_error_55  = [ NaN ; NaN ; NaN ];
 
 %-- Image #56:
-omc_56 = [ 2.185076e+00 ; 2.250317e+00 ; -2.057989e-02 ];
-Tc_56  = [ -2.228870e+03 ; 7.349545e+02 ; 2.069492e+04 ];
-omc_error_56 = [ 4.142524e-02 ; 4.322467e-02 ; 1.186224e-01 ];
-Tc_error_56  = [ 1.362956e+03 ; 1.020464e+03 ; 1.008133e+03 ];
+omc_56 = [ 1.827591e+00 ; 2.020419e+00 ; 1.019410e+00 ];
+Tc_56  = [ -1.117909e+03 ; -1.306065e+02 ; 6.422081e+03 ];
+omc_error_56 = [ 1.492204e-03 ; 1.473646e-03 ; 2.102898e-03 ];
+Tc_error_56  = [ 1.214595e+00 ; 3.636695e-01 ; 4.504038e+01 ];
 
 %-- Image #57:
 omc_57 = [ NaN ; NaN ; NaN ];
@@ -410,128 +410,8 @@ omc_error_60 = [ NaN ; NaN ; NaN ];
 Tc_error_60  = [ NaN ; NaN ; NaN ];
 
 %-- Image #61:
-omc_61 = [ 2.224315e+00 ; 1.430870e+00 ; -6.679495e-01 ];
-Tc_61  = [ -2.724985e+02 ; -6.236276e+02 ; 1.730600e+04 ];
-omc_error_61 = [ 3.973882e-02 ; 4.854248e-02 ; 8.820265e-02 ];
-Tc_error_61  = [ 1.144350e+03 ; 8.518081e+02 ; 7.997370e+02 ];
-
-%-- Image #62:
-omc_62 = [ NaN ; NaN ; NaN ];
-Tc_62  = [ NaN ; NaN ; NaN ];
-omc_error_62 = [ NaN ; NaN ; NaN ];
-Tc_error_62  = [ NaN ; NaN ; NaN ];
-
-%-- Image #63:
-omc_63 = [ NaN ; NaN ; NaN ];
-Tc_63  = [ NaN ; NaN ; NaN ];
-omc_error_63 = [ NaN ; NaN ; NaN ];
-Tc_error_63  = [ NaN ; NaN ; NaN ];
-
-%-- Image #64:
-omc_64 = [ NaN ; NaN ; NaN ];
-Tc_64  = [ NaN ; NaN ; NaN ];
-omc_error_64 = [ NaN ; NaN ; NaN ];
-Tc_error_64  = [ NaN ; NaN ; NaN ];
-
-%-- Image #65:
-omc_65 = [ NaN ; NaN ; NaN ];
-Tc_65  = [ NaN ; NaN ; NaN ];
-omc_error_65 = [ NaN ; NaN ; NaN ];
-Tc_error_65  = [ NaN ; NaN ; NaN ];
-
-%-- Image #66:
-omc_66 = [ 2.087218e+00 ; 1.674977e+00 ; -3.978939e-01 ];
-Tc_66  = [ -1.514738e+03 ; 2.518505e+02 ; 1.802999e+04 ];
-omc_error_66 = [ 3.848016e-02 ; 5.094220e-02 ; 8.296238e-02 ];
-Tc_error_66  = [ 1.188915e+03 ; 8.880831e+02 ; 8.578038e+02 ];
-
-%-- Image #67:
-omc_67 = [ NaN ; NaN ; NaN ];
-Tc_67  = [ NaN ; NaN ; NaN ];
-omc_error_67 = [ NaN ; NaN ; NaN ];
-Tc_error_67  = [ NaN ; NaN ; NaN ];
-
-%-- Image #68:
-omc_68 = [ NaN ; NaN ; NaN ];
-Tc_68  = [ NaN ; NaN ; NaN ];
-omc_error_68 = [ NaN ; NaN ; NaN ];
-Tc_error_68  = [ NaN ; NaN ; NaN ];
-
-%-- Image #69:
-omc_69 = [ NaN ; NaN ; NaN ];
-Tc_69  = [ NaN ; NaN ; NaN ];
-omc_error_69 = [ NaN ; NaN ; NaN ];
-Tc_error_69  = [ NaN ; NaN ; NaN ];
-
-%-- Image #70:
-omc_70 = [ NaN ; NaN ; NaN ];
-Tc_70  = [ NaN ; NaN ; NaN ];
-omc_error_70 = [ NaN ; NaN ; NaN ];
-Tc_error_70  = [ NaN ; NaN ; NaN ];
-
-%-- Image #71:
-omc_71 = [ 2.200777e+00 ; 1.886462e+00 ; -3.292232e-01 ];
-Tc_71  = [ -4.518841e+02 ; 3.855657e+02 ; 1.822331e+04 ];
-omc_error_71 = [ 4.037670e-02 ; 4.687944e-02 ; 9.586851e-02 ];
-Tc_error_71  = [ 1.202265e+03 ; 8.968959e+02 ; 8.447511e+02 ];
-
-%-- Image #72:
-omc_72 = [ NaN ; NaN ; NaN ];
-Tc_72  = [ NaN ; NaN ; NaN ];
-omc_error_72 = [ NaN ; NaN ; NaN ];
-Tc_error_72  = [ NaN ; NaN ; NaN ];
-
-%-- Image #73:
-omc_73 = [ NaN ; NaN ; NaN ];
-Tc_73  = [ NaN ; NaN ; NaN ];
-omc_error_73 = [ NaN ; NaN ; NaN ];
-Tc_error_73  = [ NaN ; NaN ; NaN ];
-
-%-- Image #74:
-omc_74 = [ NaN ; NaN ; NaN ];
-Tc_74  = [ NaN ; NaN ; NaN ];
-omc_error_74 = [ NaN ; NaN ; NaN ];
-Tc_error_74  = [ NaN ; NaN ; NaN ];
-
-%-- Image #75:
-omc_75 = [ NaN ; NaN ; NaN ];
-Tc_75  = [ NaN ; NaN ; NaN ];
-omc_error_75 = [ NaN ; NaN ; NaN ];
-Tc_error_75  = [ NaN ; NaN ; NaN ];
-
-%-- Image #76:
-omc_76 = [ 1.825923e+00 ; 2.000725e+00 ; 1.108624e+00 ];
-Tc_76  = [ -2.530077e+03 ; 2.572372e+02 ; 1.509440e+04 ];
-omc_error_76 = [ 6.650312e-02 ; 3.377309e-02 ; 6.702079e-02 ];
-Tc_error_76  = [ 1.000299e+03 ; 7.474487e+02 ; 7.702251e+02 ];
-
-%-- Image #77:
-omc_77 = [ NaN ; NaN ; NaN ];
-Tc_77  = [ NaN ; NaN ; NaN ];
-omc_error_77 = [ NaN ; NaN ; NaN ];
-Tc_error_77  = [ NaN ; NaN ; NaN ];
-
-%-- Image #78:
-omc_78 = [ NaN ; NaN ; NaN ];
-Tc_78  = [ NaN ; NaN ; NaN ];
-omc_error_78 = [ NaN ; NaN ; NaN ];
-Tc_error_78  = [ NaN ; NaN ; NaN ];
-
-%-- Image #79:
-omc_79 = [ NaN ; NaN ; NaN ];
-Tc_79  = [ NaN ; NaN ; NaN ];
-omc_error_79 = [ NaN ; NaN ; NaN ];
-Tc_error_79  = [ NaN ; NaN ; NaN ];
-
-%-- Image #80:
-omc_80 = [ NaN ; NaN ; NaN ];
-Tc_80  = [ NaN ; NaN ; NaN ];
-omc_error_80 = [ NaN ; NaN ; NaN ];
-Tc_error_80  = [ NaN ; NaN ; NaN ];
-
-%-- Image #81:
-omc_81 = [ 2.107614e+00 ; 1.727953e+00 ; -3.948803e-01 ];
-Tc_81  = [ -1.540651e+03 ; 2.831005e+02 ; 1.796203e+04 ];
-omc_error_81 = [ 3.818859e-02 ; 5.090709e-02 ; 8.459841e-02 ];
-Tc_error_81  = [ 1.184552e+03 ; 8.847946e+02 ; 8.548152e+02 ];
+omc_61 = [ -1.699484e+00 ; -2.386579e+00 ; 4.928985e-01 ];
+Tc_61  = [ -9.480249e+02 ; -1.177461e+02 ; 6.666865e+03 ];
+omc_error_61 = [ 1.390244e-03 ; 2.031558e-03 ; 3.075695e-03 ];
+Tc_error_61  = [ 9.060920e-01 ; 2.915193e-01 ; 4.333513e+01 ];
 
