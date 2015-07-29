@@ -12,10 +12,11 @@ while(true)
         return
     end
     [H, inls] = ransacH2to1(keypoints1, keypoints2, left_matches, 3000, 10);
-    map_inls = left_idxs(inls);
     if length(inls) < minSz
         break;
     end
+    map_inls = left_idxs(inls);
+    
     Hs{i} = H;
     inliers{i} = map_inls;
     i = i + 1;

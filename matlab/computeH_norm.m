@@ -40,6 +40,7 @@ x2 = x1t;
 centroid1 = mean(x1(1:2,:)')';
 centroid2 = mean(x2(1:2,:)')';
 
+
 %% Shift the origin of the points to the centroid
 x1(1,:) = x1(1,:) - centroid1(1);
 x1(2,:) = x1(2,:) - centroid1(2);

@@ -4,7 +4,7 @@ function [corres_left, corres_right] = GetCorres(img_left, img_right)
 % the bandwidth is the error along y axis that can be tolerated between two
 % correspondences.
 % the corres_left and corres_right are the two N-by-2 matrices. each row is
-% a point coordinate 
+% a point coordinate
 
 % extract features
 [fl,desc_left] = vl_sift(single(img_left));
@@ -34,4 +34,6 @@ for k=1:numel(inliers_cell)
     end
     %hold off
 end
+%save(correspath_left,'corres_left');
+%save(correspath_right,'corres_right');
 end

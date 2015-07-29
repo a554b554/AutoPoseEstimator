@@ -16,7 +16,7 @@ corres_left = [];
 corres_right = [];
 aver_epi_err = inf;
 
-if(size(kp_left, 2) == 0 || size(kp_right, 2) == 0)
+if(size(kp_left, 2) <= 4 || size(kp_right, 2) <= 4)
     return;
 end
 % match features
@@ -34,7 +34,7 @@ end
 for k=1:numel(inliers_cell)
     %clf;
     
-    imshow([uint8(img_left), uint8(img_right)]);
+    %imshow([uint8(img_left), uint8(img_right)]);
     %hold on
     inliers = inliers_cell{k};
     for i=1:size(inliers,2)

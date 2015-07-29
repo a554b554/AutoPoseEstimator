@@ -15,8 +15,9 @@ if nargin < 4
     T = 100;
     inlier_thrd = 15;
 end
-
-lg_cons_sz = 0;
+bestH = [];
+inliers = [];
+lg_cons_sz = 4;
 for t = 1:T
     % random permutation for sampling
     rand_ind = randperm(N);

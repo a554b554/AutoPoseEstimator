@@ -1,20 +1,22 @@
 function RunPosEst(img_basepath, calib_data_basepath, view_id, img_ids) 
 
 diary('./result.txt');
-diary on;
-warning('off');
-
+% diary on;
+fid = fopen('./err3.txt','w');
 % rely on the rodrigues of caltech toolbox
 addpath(genpath('../3rdparty/caltech_calib'));
 % rely on the featrue extraction of vlfeat
 addpath(genpath('../3rdparty/vlfeat'));
 run('vl_setup');
 
+errs=[];
+errsransac=[];
+
 if nargin == 0
     img_basepath = '~/Documents/data/jun18/test';
     calib_data_basepath = '~/Documents/data/jun18/recdata';
     view_id = '3';
-    img_ids = {'00100','00600','00700','00900'};
+    img_ids = {'00100','00200','00300','00400','00500','00600','00700'};
 else
     img_basepath = '~/Documents/autorecalib/test/feb15/3';
     calib_data_basepath = '~/Documents/autorecalib/gt/feb15/Mat/3';
@@ -50,51 +52,52 @@ E_gt = R_gt*TT
 
 corres_left = [];
 corres_right = [];
-mid_path = {'00011','00021','00022','00041','00042','00051','00052','00061','00062'};
-for j = 1:numel(mid_path)
-for i = 1:numel(img_ids)
-    left_imgpath = [img_basepath,'/all_',mid_path{j},'_', img_ids{i},'_left.png'];
-    right_imgpath = [img_basepath, '/all_', mid_path{j}, '_', img_ids{i} '_right.png'];
+mid_path = {'00001','00011','00012','00021','00051','00052','00061','00062'};
+for jjj = 1:numel(mid_path)
+for iii = 1:numel(img_ids)
+    left_imgpath = [img_basepath,'/all_',mid_path{jjj},'_', img_ids{iii},'_left.png'];
+    right_imgpath = [img_basepath, '/all_', mid_path{jjj}, '_', img_ids{iii} '_right.png'];
     % load images and data
     img_left = double(rgb2gray(imread(left_imgpath)));
     img_right = double(rgb2gray(imread(right_imgpath)));
     left_imgpath
-    [h,w] = size(img_left);
-    % get correspondeces
-    [corres_left_, corres_right_] = GetCorres(img_left, img_right);
-    %[corres_left_, corres_right_] = correspondfilter(corres_left_, corres_right_, imread(left_imgpath));
+%     [h,w] = size(img_left);
+%     get correspondeces
+    [corres_left, corres_right] = GetCorres(img_left, img_right);
+%     [corres_left_, corres_right_] = correspondfilter(corres_left_, corres_right_, imread(left_imgpath));
 %     showMatchedFeatures(img_left,img_right,corres_left_,corres_right_,'montage');
 %     waitforbuttonpress;
-    corres_left = [corres_left; corres_left_];
-    corres_right = [corres_right; corres_right_];
-
-
+%     corres_left = [corres_left; corres_left_];
+%     corres_right = [corres_right; corres_right_];
+% 
+% 
 % end
 corres_count = size(corres_left, 1);
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-load stereoPointPairs;
-
-fprintf('method: ransac\n');
-E = findEssentialmatrixRansac(corres_left, corres_right, K_left, K_right);
-M_left = [K_left,zeros(3,1)];
-M_rights = E2Rts(E);
-for i=1:4
-    M_right=K_right*M_rights(:,:,i);
-    P=triangulate(M_left, corres_left, M_right, corres_right);
-    if isempty(find(P(:,3)<0))
-        break
-    end
-end
-result_img=[img_left,img_right];
-R=M_rights(:,1:3,i);
-T=M_rights(:,4,i);
-[R_left, R_right, S_new] = RectifyStereo([R, T]);
-img_left_rec = RectifyImage(img_left, R_left, K_left, d_left);
-img_right_rec = RectifyImage(img_right, R_right, K_right, d_right);
-result_img = [result_img; img_left_rec, img_right_rec];
-[corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres(img_left_rec, img_right_rec, 50);
-aver_epi_err
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% load stereoPointPairs;
+% 
+% fprintf('method: ransac\n');
+% E = findEssentialmatrixRansac(corres_left, corres_right, K_left, K_right);
+% M_left = [K_left,zeros(3,1)];
+% M_rights = E2Rts(E);
+% for i=1:4
+%     M_right=K_right*M_rights(:,:,i);
+%     P=triangulate(M_left, corres_left, M_right, corres_right);
+%     if isempty(find(P(:,3)<0))
+%         break
+%     end
+% end
+% result_img=[img_left,img_right];
+% R=M_rights(:,1:3,i);
+% T=M_rights(:,4,i);
+% [R_left, R_right, S_new] = RectifyStereo([R, T]);
+% img_left_rec = RectifyImage(img_left, R_left, K_left, d_left);
+% img_right_rec = RectifyImage(img_right, R_right, K_right, d_right);
+% result_img = [result_img; img_left_rec, img_right_rec];
+% [corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres(img_left_rec, img_right_rec, 50);
+% aver_epi_err
+% errsransac=[errsransac;aver_epi_err];
 
 % 
 % [R_left_gt, R_right_gt, S_new] = RectifyStereo([R_gt, T_gt]);
@@ -138,94 +141,6 @@ aver_epi_err
 %  return
 
 
-fprintf('method: 8points\n');
-f = estimateFundamentalMatrix(corres_left, corres_right,'Method', 'Norm8Point');
-E = K_left'*f*K_right;
-M_left = [K_left,zeros(3,1)];
-M_rights = E2Rts(E);
-for i=1:4
-    M_right=K_right*M_rights(:,:,i);
-    P=triangulate(M_left, corres_left, M_right, corres_right);
-    if isempty(find(P(:,3)<0))
-        break
-    end
-end
-result_img=[img_left,img_right];
-R=M_rights(:,1:3,i);
-T=M_rights(:,4,i);
-[R_left, R_right, S_new] = RectifyStereo([R, T]);
-img_left_rec = RectifyImage(img_left, R_left, K_left, d_left);
-img_right_rec = RectifyImage(img_right, R_right, K_right, d_right);
-result_img = [result_img; img_left_rec, img_right_rec];
-[corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres(img_left_rec, img_right_rec, 50);
-aver_epi_err
-
-
-fprintf('method: LMedS\n');
-f = estimateFundamentalMatrix(corres_left, corres_right,'Method', 'LMedS');
-E = K_left'*f*K_right;
-M_left = [K_left,zeros(3,1)];
-M_rights = E2Rts(E);
-for i=1:4
-    M_right=K_right*M_rights(:,:,i);
-    P=triangulate(M_left, corres_left, M_right, corres_right);
-    if isempty(find(P(:,3)<0))
-        break
-    end
-end
-result_img=[img_left,img_right];
-R=M_rights(:,1:3,i);
-T=M_rights(:,4,i);
-[R_left, R_right, S_new] = RectifyStereo([R, T]);
-img_left_rec = RectifyImage(img_left, R_left, K_left, d_left);
-img_right_rec = RectifyImage(img_right, R_right, K_right, d_right);
-result_img = [result_img; img_left_rec, img_right_rec];
-[corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres(img_left_rec, img_right_rec, 50);
-aver_epi_err
-
-fprintf('method: MSAC\n');
-f = estimateFundamentalMatrix(corres_left, corres_right,'Method', 'MSAC');
-E = K_left'*f*K_right;
-M_left = [K_left,zeros(3,1)];
-M_rights = E2Rts(E);
-for i=1:4
-    M_right=K_right*M_rights(:,:,i);
-    P=triangulate(M_left, corres_left, M_right, corres_right);
-    if isempty(find(P(:,3)<0))
-        break
-    end
-end
-result_img=[img_left,img_right];
-R=M_rights(:,1:3,i);
-T=M_rights(:,4,i);
-[R_left, R_right, S_new] = RectifyStereo([R, T]);
-img_left_rec = RectifyImage(img_left, R_left, K_left, d_left);
-img_right_rec = RectifyImage(img_right, R_right, K_right, d_right);
-result_img = [result_img; img_left_rec, img_right_rec];
-[corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres(img_left_rec, img_right_rec, 50);
-aver_epi_err
-
-fprintf('method: LTS\n');
-f = estimateFundamentalMatrix(corres_left, corres_right,'Method', 'LTS');
-E = K_left'*f*K_right;
-M_left = [K_left,zeros(3,1)];
-M_rights = E2Rts(E);
-for i=1:4
-    M_right=K_right*M_rights(:,:,i);
-    P=triangulate(M_left, corres_left, M_right, corres_right);
-    if isempty(find(P(:,3)<0))
-        break
-    end
-end
-result_img=[img_left,img_right];
-R=M_rights(:,1:3,i);
-T=M_rights(:,4,i);
-[R_left, R_right, S_new] = RectifyStereo([R, T]);
-img_left_rec = RectifyImage(img_left, R_left, K_left, d_left);
-img_right_rec = RectifyImage(img_right, R_right, K_right, d_right);
-result_img = [result_img; img_left_rec, img_right_rec];
-[corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres(img_left_rec, img_right_rec, 50);
-aver_epi_err
 
 %result_img = [img_left_rec, img_right_rec];
 
@@ -242,8 +157,11 @@ aver_epi_err
 result_img = [ uint8(img_left), uint8(img_right)];
 %[R_, T_, F_, E_, P_] = PosEstByF(corres_left, corres_right, K_left, K_right, size(img_left));
 %[R, T, E, P] = PosEstByEb(corres_left, corres_right, K_left, K_right);
-[Rs, Ts] = PosEstByEbRansac(corres_left, corres_right, K_left, K_right, 500, 0.1, true, true);
-
+% try
+ [Rs, Ts] = PosEstByEbRansac(corres_left, corres_right, K_left, K_right, 500, 0.1, true, true);
+% catch ME
+%     continue
+% end
 
 
 
@@ -251,7 +169,7 @@ result_img = [ uint8(img_left), uint8(img_right)];
 
 %fprintf('scoring\n');
 % select best {R,T} from {Rs, Ts}, in the sense that has best rectification results
-[corres_left, corres_right] = GetCorres(img_left, img_right);
+% [corres_left, corres_right] = GetCorres(img_left, img_right);
 corres_base_count = size(corres_left, 1);
 epi_err_list = zeros(numel(Rs),1);
 corres_count_list = zeros(numel(Rs),1);
@@ -267,7 +185,8 @@ for i = 1:numel(Rs)
 %     waitforbuttonpress;
 %     imshow(img_right_rec);
 %     waitforbuttonpress;
-    [corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres(img_left_rec, img_right_rec, 50);
+% FindEpiCorres2(img_left, img_right, origin_corres_left, origin_corres_right, bandwidth, R_left, R_right, K_left, K_right, D_left, D_right)
+    [corres_left_rec, corres_right_rec, aver_epi_err] = FindEpiCorres2(img_left_rec, img_right_rec, corres_left,corres_right, 50,R_left,R_right,K_left,K_right,d_left,d_right);
     epi_err_list(i) = aver_epi_err;
     corres_count_list(i) = size(corres_left_rec, 1);
     final_score_list(i) = 1 / aver_epi_err + 0.6 * size(corres_left_rec, 1) / corres_base_count;
@@ -277,7 +196,20 @@ for i = 1:numel(Rs)
 end
 fprintf('method: cai');
 tic;
-min(epi_err_list)
+[err id] = min(epi_err_list);
+[csize id] = max(corres_count_list);
+result_img = [result_img; rect_result_imgs{id}];
+errs = [errs;err];
+diffmat = rodrigues(Rs{id})-rodrigues(R_gt);
+Rdif = diffmat.^2
+Tdif = Ts{id}/norm(Ts{id})-T_gt/norm(T_gt);
+Tdif = Tdif.^2
+fprintf(fid,'%s',left_imgpath);
+fprintf(fid,' %f ',err);
+fprintf(fid,'%d ',csize);
+fprintf(fid,'%f %f %f',Rdif(1),Rdif(2),Rdif(3));
+fprintf(fid,'%f %f %f',Tdif(1),Tdif(2),Tdif(3));
+fprintf(fid,'\n');
 % 
 % [epi_errs, epi_rnk] = sort(epi_err_list, 'ascend');
 % [corres_counts, corres_rnk] = sort(corres_count_list, 'descend');
@@ -287,7 +219,7 @@ min(epi_err_list)
 %     final_score_list(epi_rnk(i)) = final_score_list(epi_rnk(i)) + rank_score;
 %     final_score_list(corres_rnk(i)) = final_score_list(corres_rnk(i)) + rank_score;
 % end
-
+% 
 % fprintf('showing..');
 % tic;
 % [final_scores, final_rnk] = sort(final_score_list, 'descend');
@@ -304,16 +236,16 @@ min(epi_err_list)
 % best_Rt_idx = final_rnk(1);
 % fprintf('The best epipolar error is: %f \n the best correspondeces count is: %d\n', epi_err_list(best_Rt_idx), corres_count_list(best_Rt_idx));
 % result_img = [result_img; rect_result_imgs{best_Rt_idx}];
-
-%optimize again by minimizing the reprojection error
+% 
+% optimize again by minimizing the reprojection error
 % [R_opt, T_opt] = OptimizePos(corres_left, corres_right, K_left, K_right, Rs{best_Rt_idx}, Ts{best_Rt_idx}, 1, 10);
 % [R_left_opt, R_right_opt, S_new] = RectifyStereo([R_opt, T_opt]);
 % img_left_rec_opt = RectifyImage(img_left, R_left_opt, K_left, d_left);
 % img_right_rec_opt = RectifyImage(img_right, R_right_opt, K_right, d_right);
 % result_img = [ result_img;
 %                uint8(img_left_rec_opt), uint8(img_right_rec_opt)];
-
-%ground truth rectified images
+% 
+% ground truth rectified images
 [R_left_gt, R_right_gt, S_new] = RectifyStereo([R_gt, T_gt]);
 
 img_left_rec_gt = RectifyImage(img_left, R_left_gt, K_left, d_left);
@@ -323,20 +255,21 @@ result_img = [ result_img;
                uint8(img_left_rec_gt), uint8(img_right_rec_gt)];
 [corres_left_rec, corres_right_rec, aver_epi_err_gt] = FindEpiCorres(img_left_rec_gt, img_right_rec_gt, 50);
 aver_epi_err_gt
-toc;
-% detR = rotx(30);
+
 % R_det_left = R_left_gt*detR;
 % R_det_right = R_right_gt*detR;
 % img_det_left = RectifyImage(img_left, R_det_left, K_left, d_left);
 % img_det_right = RectifyImage(img_right, R_det_right, K_right, d_right);
 % result_img = [result_img;img_det_left,img_det_right];
-% 
+
 % if nargin == 0           
 %     CheckRectification(result_img, 2);
 % end
 
+plot(errs);
+
 end
 end
-dairy off;
+% dairy off;
 
 end

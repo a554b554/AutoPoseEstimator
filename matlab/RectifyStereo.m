@@ -1,15 +1,30 @@
-function [R_l, R_r, S_new] = RectifyStereo(S_old)
+function [R_l, R_r, S_new, K_l_new, K_r_new, d_l_new, d_r_new] = RectifyStereo(img_sz, S_old, K_l_old, K_r_old, d_l_old, d_r_old)
 %% 
-% Rectify a stereo system, given the transform between two views (S_old), compute R_r, R_l (rotations) which need to be applied on the two views and the new transform of the two view (S_new).
+% Rectify a stereo system, given the transform between two views (S_old), 
+% compute R_r, R_l (rotations) which need to be applied on the two views
+% and the new transform of the two view (S_new).
 % params:
-%   [1] S_old: 3-by-4 matrix [R_old, T_old], which discribes the original transform
+%   * img_sz: imgage size. [img_height, img_width]
+%   * S_old: 3-by-4 matrix [R_old, T_old], which discribes the original transform
 %   between two views.
-%   [2] R_r, R_l: 3-by-3 matrices
-%   [3] S_new: 3-by-4 matrix [I, T_new], which discribes the new transform
+%   * R_r, R_l: 3-by-3 rotation matrices that will be applied on left and
+%   right views to make the both camera's image plans the same plan.
+%   * K_l_old, K_r_old: 3-by-3 old camera matrices of left and right
+%   cameras before rectification.
+%   * d_l_old, d_r_old: old distortion matrices of left and right
+%   cameras before rectification.
+%   * K_l_new, K_r_new: 3-by-3 new camera matrices of left and right
+%   cameras after rectification.
+%   * d_l_new, d_r_new: new distortion matrices of left and right
+%   cameras after rectification.
+%   S_new: 3-by-4 matrix [I, T_new], which discribes the new transform
 %   between two views.
 
 %% rely on the rodrigues of caltech toolbox
 addpath(genpath('../3rdparty/caltech_calib'));
+
+nx = img_sz(2);
+ny = img_sz(1);
 
 %%
 R_old = S_old(:, 1:3);
@@ -57,5 +72,47 @@ R_new = eye(3);
 T_new = R_r * T_old;
 S_new = [R_new, T_new];
 
+fc_left = [K_l_old(1,1), K_l_old(2,2)];
+fc_right = [K_r_old(1,1), K_r_old(2,2)];
+cc_left = [K_l_old(1,3), K_l_old(2,3)];
+cc_right = [K_r_old(1,3), K_r_old(2,3)];
+alpha_c_left = 0;
+alpha_c_right = 0;
+% Computation of the *new* intrinsic parameters for both left and right cameras:
+% Vertical focal length *MUST* be the same for both images (here, we are trying to find a focal length that retains as much information contained in the original distorted images):
+if d_l_old(1) < 0,
+    fc_y_left_new = fc_left(2) * (1 + d_l_old(1)*(nx^2 + ny^2)/(4*fc_left(2)^2));
+else
+    fc_y_left_new = fc_left(2);
+end;
+if d_r_old(1) < 0,
+    fc_y_right_new = fc_right(2) * (1 + d_r_old(1)*(nx^2 + ny^2)/(4*fc_right(2)^2));
+else
+    fc_y_right_new = fc_right(2);
+end;
+fc_y_new = min(fc_y_left_new,fc_y_right_new);
+
+% For simplicity, let's pick the same value for the horizontal focal length as the vertical focal length (resulting into square pixels):
+fc_left_new = round([fc_y_new;fc_y_new]);
+fc_right_new = round([fc_y_new;fc_y_new]);
+
+% Select the new principal points to maximize the visible area in the rectified images
+
+cc_left_new = [(nx-1)/2;(ny-1)/2] - mean(project_points2([normalize_pixel([0  nx-1 nx-1 0; 0 0 ny-1 ny-1],fc_left,cc_left,d_l_old,alpha_c_left);[1 1 1 1]],rodrigues(R_l),zeros(3,1),fc_left_new,[0;0],zeros(5,1),0),2);
+cc_right_new = [(nx-1)/2;(ny-1)/2] - mean(project_points2([normalize_pixel([0  nx-1 nx-1 0; 0 0 ny-1 ny-1],fc_right,cc_right,d_r_old,alpha_c_right);[1 1 1 1]],rodrigues(R_r),zeros(3,1),fc_right_new,[0;0],zeros(5,1),0),2);
+
+% For simplivity, set the principal points for both cameras to be the average of the two principal points.
+% NOTE: the principal points' Y are the SAME!
+cc_y_new = (cc_left_new(2) + cc_right_new(2))/2;
+cc_left_new = [cc_left_new(1);cc_y_new];
+cc_right_new = [cc_right_new(1);cc_y_new];
+
+% Of course, we do not want any skew or distortion after rectification:
+d_l_new = zeros(5,1);
+d_r_new = zeros(5,1);
+
+% The resulting left and right camera matrices:
+K_l_new = [fc_left_new(1) 0 cc_left_new(1);0 fc_left_new(2) cc_left_new(2); 0 0 1];
+K_r_new = [fc_right_new(1) 0 cc_right_new(1);0 fc_right_new(2) cc_right_new(2); 0 0 1];
 
 end

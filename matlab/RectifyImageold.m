@@ -1,4 +1,4 @@
-function [img_rec, orig_idx, new_idx] = RectifyImage(img, R, K_old, d_old, K_new)
+function [img_rec, orig_idx, new_idx] = RectifyImageold(img, R, K, d)
 %% 
 % Rectify an image.
 % params:
@@ -20,19 +20,19 @@ px = reshape(mx',nc*nr,1);
 py = reshape(my',nc*nr,1);
 
 % map points back to camera reference frame
-rays = inv(K_new)*[(px - 1)';(py - 1)';ones(1,length(px))];
-
+rays = inv(K)*[(px - 1)';(py - 1)';ones(1,length(px))];
+  
 % Rotation: (or affine transformation):
 rays2 = R'*rays;
 x = [rays2(1,:)./rays2(3,:);rays2(2,:)./rays2(3,:)];
 
 
 % Add distortion:
-xd = apply_distortion(x,d_old);
+xd = apply_distortion(x,d);
 % Reconvert in pixels:
 
-px2 = K_old(1,1)*xd(1,:)+ K_old(1,2)*xd(2,:)+K_old(1,3);
-py2 = K_old(2,2)*xd(2,:)+K_old(2,3);
+px2 = K(1,1)*xd(1,:)+ K(1,2)*xd(2,:)+K(1,3);
+py2 = K(2,2)*xd(2,:)+K(2,3);
 
 
 % Interpolate between the closest pixels:
