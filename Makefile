@@ -18,6 +18,8 @@ SEQ_AUTO_RECALIB_SRC= $(SRC_DIR)/AutoPosEst.cpp\
 				  $(SRC_DIR)/FeatureExtractor.cpp\
 				  $(SRC_DIR)/AutoPosEstimator.cpp\
 			      $(SRC_DIR)/StereoVisualizeUtils.cpp\
+			      $(SRC_DIR)/cpu_sncc.cpp\
+			      $(SRC_DIR)/AutoRecalibrator.cpp\
 				  $(SRC_DIR)/Parameters.cpp
 
 ALL_SRC= $(SRC_DIR)/AutoPosEst.cpp\

@@ -93,25 +93,34 @@ public:
 
 class AutoPosEstimator {
 public:
-	AutoPosEstimator(EstimatorOption* _options, vector<Mat>& _left_imgs, vector<Mat>& _right_imgs);
+	//AutoPosEstimator(EstimatorOption* _options, vector<Mat>& _left_imgs, vector<Mat>& _right_imgs);
+	AutoPosEstimator(int img_width_ , int img_height_, EstimatorOption *_options = new EstimatorOption());
 	~AutoPosEstimator();
-	bool extractCorres();
-    void recoverRT(Mat& R, Mat& T);
+	bool EstimatePose(const Mat &_K_left, const Mat &_K_right,
+			const Mat &_d_left, const Mat &_d_right,
+			const vector<Mat>& _left_imgs, const vector<Mat>& _right_imgs,
+			Mat& R_init, Mat& T_init, Mat& R_opt, Mat& T_opt);
+	double EvalPose(const Mat& R, const Mat& T,  const vector<Mat>& _left_imgs,
+			const vector<Mat>& _right_imgs, vector<Mat>& _left_rect_imgs, vector<Mat>& _right_rect_imgs);
+	bool ExtractCorres();
+    void RecoverRT(Mat& R, Mat& T);
+    void AddImages(const vector<Mat>& _left_imgs, const vector<Mat>& _right_imgs);
+    void ClearImages();
     void rectifyImage(const Mat& imgl, const Mat& imgr, const Mat& R, const Mat& T, Mat& dstl, Mat& dstr);
-    void setIntrinsic(const Mat& K_left, const Mat& K_right, const Mat& d_left, const Mat& d_right);
+    void SetIntrinsic(const Mat& K_left, const Mat& K_right, const Mat& d_left, const Mat& d_right);
     void svddecompose(const Mat& E, Mat& R, Mat& T);
     double evalEpiErr(const Mat& left_img_rect, const Mat& right_img_rect);
-    void optmizePos(const Mat& oriR, const Mat& oriT, Mat& R, Mat& T, int maxIter);
+    void OptimizeRT(const Mat& oriR, const Mat& oriT, Mat& R, Mat& T, int maxIter);
     void updatePose(const Mat& corres_left_m, const Mat& corres_right_m, const Mat& corres_left_o, const Mat& corres_right_o,
                     const Mat& oriR, const Mat& oriT, Mat& R, Mat& T);
     double updateModel(const Mat& corres_left_o, const Mat& corres_right_o, const Mat& R,
                      const Mat& T, Mat& corres_left_m, Mat& corres_right_m);
     // return the error.
-    void exportImg();
-    void setid(string _id);
+//    void exportImg();
+//    void setid(string _id);
 
 private:
-    string id;
+    //string id;
 	EstimatorOption* options;
 	int img_width;
 	int img_height;

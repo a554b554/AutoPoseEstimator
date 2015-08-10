@@ -26,19 +26,6 @@ void readmat(string fname, Mat& m){
 
 }
 
-Mat AxisRotation(char axis, double angle) {
-    if (axis == 'x')
-        return (Mat_<double>(3, 3) << 1, 0, 0, 0, cos(angle), -sin(angle), 0, sin(
-                angle), cos(angle));
-
-    else if (axis == 'y')
-        return (Mat_<double>(3, 3) << cos(angle), 0, sin(angle), 0, 1, 0, -sin(
-                angle), 0, cos(angle));
-
-    else if (axis == 'z')
-        return (Mat_<double>(3, 3) << cos(angle), -sin(angle), 0, sin(angle), cos(
-                angle), 0, 0, 0, 1);
-}
 
 void vec2mat(const vector<Point2f> &pts, Mat &output){
     output.create(pts.size(),3,CV_64FC1);
@@ -165,30 +152,64 @@ void OptData::print(){
     cout<<"T_norm: "<<T_norm<<endl;
 }
 
-AutoPosEstimator::AutoPosEstimator(EstimatorOption *_options, vector<Mat>& _left_imgs, 
-	vector<Mat>& _right_imgs) {
-	this->options = options;
-	for (int i = 0; i < _left_imgs.size(); ++i)
-	{
-        Mat imgl = _left_imgs[i].clone();
-		if (imgl.channels()==3){
-			cvtColor(imgl,imgl,CV_BGR2GRAY);
-		}
-        Mat imgr = _right_imgs[i].clone();
-		if (imgr.channels()==3){
-			cvtColor(imgr,imgr,CV_BGR2GRAY);
-		}
-		left_imgs.push_back(imgl);
-        right_imgs.push_back(imgr);
-	}
+
+AutoPosEstimator::AutoPosEstimator(int _img_width , int _img_height, EstimatorOption *_options) {
+	this->options = _options;
 
     feature_extractor = new FeatureExtractor(_options->detector_type,_options->descriptor_type
                                              , _options->detector_param,_options->descriptor_param);
     corres_detector = new HomographyRansacCorresDetector();
-    img_width = left_imgs[0].cols;
-    img_height = left_imgs[0].rows;
+    img_width = _img_width;
+    img_height = _img_height;
     //imshow("dd",left_imgs[0]);
 
+}
+
+double AutoPosEstimator::EvalPose(const Mat& R, const Mat& T,
+		const vector<Mat>& _left_imgs, const vector<Mat>& _right_imgs,
+		vector<Mat>& _left_rect_imgs, vector<Mat>& _right_rect_imgs) {
+	double aver_err = 0;
+	for (int i = 0; i < _left_imgs.size(); ++i) {
+		Mat dstl, dstr;
+		rectifyImage(_left_imgs[i], _right_imgs[i], R, T, dstl, dstr);
+		_left_rect_imgs.push_back(dstl);
+		_right_rect_imgs.push_back(dstr);
+		aver_err += evalEpiErr(dstl, dstr);
+	}
+	return aver_err / _left_imgs.size();
+}
+
+bool AutoPosEstimator::EstimatePose(const Mat &_K_left, const Mat &_K_right, const Mat &_d_left, const Mat &_d_right, const vector<Mat>& _left_imgs,
+		const vector<Mat>& _right_imgs, Mat& R_init, Mat& T_init, Mat& R_opt, Mat& T_opt){
+	ClearImages();
+	SetIntrinsic(_K_left, _K_right, _d_left, _d_right);
+	AddImages(_left_imgs, _right_imgs);
+	ExtractCorres();
+	RecoverRT(R_init, T_init);
+	OptimizeRT(R_init, T_init, R_opt, T_opt, 10);
+	return true;
+}
+
+void AutoPosEstimator::ClearImages() {
+	left_imgs.clear();
+	right_imgs.clear();
+}
+
+void AutoPosEstimator::AddImages(const vector<Mat>& _left_imgs,
+		const vector<Mat>& _right_imgs)
+{
+	for (int i = 0; i < _left_imgs.size(); ++i) {
+		Mat imgl = _left_imgs[i].clone();
+		if (imgl.channels() == 3) {
+			cvtColor(imgl, imgl, CV_BGR2GRAY);
+		}
+		Mat imgr = _right_imgs[i].clone();
+		if (imgr.channels() == 3) {
+			cvtColor(imgr, imgr, CV_BGR2GRAY);
+		}
+		left_imgs.push_back(imgl);
+		right_imgs.push_back(imgr);
+	}
 }
 
 AutoPosEstimator::~AutoPosEstimator() {
@@ -198,7 +219,7 @@ AutoPosEstimator::~AutoPosEstimator() {
 	// TODO Auto-generated destructor stub
 }
 
-bool AutoPosEstimator::extractCorres() {
+bool AutoPosEstimator::ExtractCorres() {
 	// data format transform
     for(int i = 0;i < this->left_imgs.size();i++){
         Mat imgl = left_imgs[i].clone();
@@ -224,14 +245,14 @@ bool AutoPosEstimator::extractCorres() {
 	
 }
 
-void AutoPosEstimator::setIntrinsic(const Mat &K_left, const Mat &K_right, const Mat &d_left, const Mat &d_right){
-    this->K_left = K_left;
-    this->K_right = K_right;
-    this->d_left = d_left;
-    this->d_right = d_right;
+void AutoPosEstimator::SetIntrinsic(const Mat &K_left, const Mat &K_right, const Mat &d_left, const Mat &d_right){
+    this->K_left = K_left.clone();
+    this->K_right = K_right.clone();
+    this->d_left = d_left.clone();
+    this->d_right = d_right.clone();
 }
 
-void AutoPosEstimator::recoverRT(Mat &R, Mat &T){
+void AutoPosEstimator::RecoverRT(Mat &R, Mat &T){
     int corres_size = corres_left.size();
     double err = INFINITY;
     vector<Point2f> left_sample, right_sample;
@@ -314,7 +335,7 @@ void AutoPosEstimator::rectifyImage(const Mat &imgl, const Mat &imgr, const Mat 
     right_rect = dstr.clone();
 }
 
-void AutoPosEstimator::optmizePos(const Mat &oriR, const Mat &oriT, Mat &R, Mat &T, int maxIter){
+void AutoPosEstimator::OptimizeRT(const Mat &oriR, const Mat &oriT, Mat &R, Mat &T, int maxIter){
     Mat m_left,m_right,o_left,o_right;
     vec2mat(corres_left, o_left);
     vec2mat(corres_right, o_right);
@@ -644,17 +665,17 @@ double AutoPosEstimator::updateModel(const Mat &corres_left_o,
     }
     return err;
 }
-
-void AutoPosEstimator::exportImg(){
-    string leftname=this->id+"_left.jpg";
-    string rightname=this->id+"_right.jpg";
-    imwrite(leftname,left_rect);
-    imwrite(rightname,right_rect);
-}
-
-void AutoPosEstimator::setid(string _id){
-    this->id=_id;
-}
+//
+//void AutoPosEstimator::exportImg(){
+//    string leftname=this->id+"_left.jpg";
+//    string rightname=this->id+"_right.jpg";
+//    imwrite(leftname,left_rect);
+//    imwrite(rightname,right_rect);
+//}
+//
+//void AutoPosEstimator::setid(string _id){
+//    this->id=_id;
+//}
 
 Mat Skew(const Mat &m){
 //    S = [0, -s(3), s(2);
