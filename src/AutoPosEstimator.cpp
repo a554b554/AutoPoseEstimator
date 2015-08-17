@@ -184,7 +184,8 @@ bool AutoPosEstimator::EstimatePose(const Mat &_K_left, const Mat &_K_right, con
 	ClearImages();
 	SetIntrinsic(_K_left, _K_right, _d_left, _d_right);
 	AddImages(_left_imgs, _right_imgs);
-	ExtractCorres();
+	if(!ExtractCorres())
+		return false;
 	RecoverRT(R_init, T_init);
 	OptimizeRT(R_init, T_init, R_opt, T_opt, 10);
 	return true;
@@ -269,6 +270,8 @@ void AutoPosEstimator::RecoverRT(Mat &R, Mat &T){
 
         Mat tmpR,tmpT;
         svddecompose(E, tmpR, tmpT);
+//        if(tmpT.at<double>(0) >= 0 || fabs(tmpT.at<double>(0)) < fabs(tmpT.at<double>(1)) || fabs(tmpT.at<double>(0)) < fabs(tmpT.at<double>(2)))
+//        	continue;
         Mat recl,recr;
         rectifyImage(left_imgs[0], right_imgs[0], tmpR, tmpT, recl, recr);
 
@@ -328,6 +331,7 @@ void AutoPosEstimator::rectifyImage(const Mat &imgl, const Mat &imgr, const Mat 
     //Precompute maps for cv::remap()
     initUndistortRectifyMap(K_left, d_left, R_left, P_left, imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
     initUndistortRectifyMap(K_right, d_right, R_right, P_right, imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
+
 
     remap(imgl, dstl, rmap[0][0], rmap[0][1], CV_INTER_LINEAR);
     remap(imgr, dstr, rmap[1][0], rmap[1][1], CV_INTER_LINEAR);
